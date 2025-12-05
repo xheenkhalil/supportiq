@@ -66,89 +66,119 @@ export default function BotDashboard() {
       <div className="max-w-5xl mx-auto space-y-8">
         
         {/* Header */}
-        <div className="flex items-center justify-between">
-          <div className="space-y-1">
-            <Link href="/create" className="text-sm text-zinc-500 hover:text-zinc-900 flex items-center gap-1">
-              <ArrowLeft size={14} /> Back to Create
+        <div className="flex items-center justify-between pb-4 border-b border-zinc-200/50">
+          <div className="space-y-2">
+            <Link href="/dashboard" className="text-sm font-medium text-zinc-500 hover:text-indigo-600 flex items-center gap-1 transition-colors">
+              <ArrowLeft size={16} /> Back to Dashboard
             </Link>
-            <h1 className="text-3xl font-bold text-zinc-900">{bot.name}</h1>
-            <p className="text-zinc-500">Status: <span className="text-green-600 font-medium">Active & Trained</span></p>
+            <div className="flex items-center gap-4">
+              <h1 className="text-4xl font-bold text-zinc-900 tracking-tight">{bot.name}</h1>
+              <div className="flex items-center gap-1.5 text-xs text-emerald-700 font-semibold px-2.5 py-1 bg-emerald-100/50 border border-emerald-200/50 rounded-full backdrop-blur-sm">
+                <div className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse shadow-[0_0_8px_rgba(16,185,129,0.4)]" />
+                Active & Trained
+              </div>
+            </div>
           </div>
-          <Button onClick={copyEmbedCode} variant="outline" className="gap-2">
-            <Copy size={16} /> Copy Embed Code
-          </Button>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           
           {/* Left Column: Embed & Settings */}
-          <div className="space-y-6">
-            <Card>
-              <CardHeader>
-                <CardTitle>Installation</CardTitle>
+          <div className="lg:col-span-2 space-y-8">
+            
+            {/* INSTALLATION CARD */}
+            <Card className="border border-zinc-200 bg-white/80 backdrop-blur-xl shadow-sm hover:shadow-md transition-all duration-300">
+              <CardHeader className="border-b border-zinc-100/50 pb-4">
+                <CardTitle className="text-lg font-semibold flex items-center gap-2">
+                  <span className="w-8 h-8 rounded-lg bg-indigo-50 flex items-center justify-center text-indigo-600">
+                    <Copy size={18} />
+                  </span>
+                  Installation
+                </CardTitle>
               </CardHeader>
-              <CardContent>
+              <CardContent className="pt-6">
                 <p className="text-sm text-zinc-500 mb-4">
-                  Copy and paste this code into the <code>&lt;head&gt;</code> of your website.
+                  Copy and paste this code into the <code>&lt;head&gt;</code> of your website to instantly deploy the widget.
                 </p>
-                <div className="bg-zinc-950 p-4 rounded-md overflow-x-auto group relative">
-                  <code className="text-sm text-green-400 font-mono whitespace-nowrap">
-                    &lt;script <br/>
-                    &nbsp;&nbsp;src="{window.location.origin}/widget.js" <br/>
-                    &nbsp;&nbsp;data-chat-id="{bot.id}"<br/>
-                    &gt;&lt;/script&gt;
-                  </code>
-                  <Button 
-                    size="icon" 
-                    variant="secondary" 
-                    className="absolute top-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity"
-                    onClick={copyEmbedCode}
-                  >
-                    <Copy size={14} />
-                  </Button>
+                <div className="relative group">
+                  <div className="absolute -inset-0.5 bg-gradient-to-r from-indigo-500 to-purple-600 rounded-lg blur opacity-20 group-hover:opacity-40 transition duration-1000"></div>
+                  <div className="relative bg-zinc-950 p-6 rounded-lg overflow-x-auto shadow-inner border border-zinc-800">
+                     <code className="text-sm font-mono leading-relaxed">
+                      <span className="text-purple-400">&lt;script</span><br/>
+                      &nbsp;&nbsp;<span className="text-blue-400">src</span>=<span className="text-green-400">"{window.location.origin}/widget.js"</span><br/>
+                      &nbsp;&nbsp;<span className="text-blue-400">data-chat-id</span>=<span className="text-green-400">"{bot.id}"</span><br/>
+                      <span className="text-purple-400">&gt;&lt;/script&gt;</span>
+                    </code>
+                    <Button 
+                      size="sm" 
+                      variant="secondary" 
+                      className="absolute top-4 right-4 bg-white/10 hover:bg-white/20 text-white border-0 backdrop-blur-md transition-all opacity-0 group-hover:opacity-100"
+                      onClick={copyEmbedCode}
+                    >
+                      <Copy size={14} className="mr-2" /> Copy to Clipboard
+                    </Button>
+                  </div>
                 </div>
               </CardContent>
             </Card>
 
-            <Card>
-              <CardHeader>
-                <CardTitle>Configuration</CardTitle>
+            {/* CONFIGURATION CARD */}
+            <Card className="border border-zinc-200 bg-white/80 backdrop-blur-xl shadow-sm hover:shadow-md transition-all duration-300">
+              <CardHeader className="border-b border-zinc-100/50 pb-4">
+                <CardTitle className="text-lg font-semibold flex items-center gap-2">
+                   <span className="w-8 h-8 rounded-lg bg-emerald-50 flex items-center justify-center text-emerald-600">
+                    <Loader2 size={18} /> {/* Using Loader2 as generic settings icon for now, fix imports if needed */}
+                  </span>
+                  Configuration & History
+                </CardTitle>
               </CardHeader>
-              <CardContent className="space-y-4">
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                  {/* ... existing Cards ... */}
+              <CardContent className="space-y-8 pt-6">
+                
+                {/* Bot Details Grid */}
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6 p-4 bg-zinc-50/50 rounded-xl border border-zinc-100">
+                   <div>
+                    <label className="text-xs font-semibold text-zinc-500 uppercase tracking-wider mb-1.5 block">Welcome Message</label>
+                    <p className="text-sm font-medium text-zinc-900 bg-white border border-zinc-200 rounded-md p-3 shadow-sm">{bot.welcome_message}</p>
+                  </div>
+                   <div>
+                    <label className="text-xs font-semibold text-zinc-500 uppercase tracking-wider mb-1.5 block">Suggested Questions</label>
+                    <div className="flex flex-wrap gap-2">
+                       {bot.suggested_questions?.map((q, i) => (
+                        <span key={i} className="px-2.5 py-1 bg-white border border-zinc-200 rounded-md text-xs font-medium text-zinc-700 shadow-sm">{q}</span>
+                      ))}
+                    </div>
+                  </div>
                 </div>
-                {/* NEW: Chat History Section */}
-                <div className="space-y-4">
-                  <h2 className="text-lg font-semibold text-zinc-900">Conversation History</h2>
-                  <ChatLogs chatbotId={bot.id} />
-                </div>
-                <div>
-                  <label className="text-xs font-medium text-zinc-500">Welcome Message</label>
-                  <p className="text-sm">{bot.welcome_message}</p>
-                </div>
-                <div>
-                  <label className="text-xs font-medium text-zinc-500">Suggested Questions</label>
-                  <div className="flex flex-wrap gap-2 mt-2">
-                    {bot.suggested_questions?.map((q, i) => (
-                      <span key={i} className="px-2 py-1 bg-zinc-100 rounded text-xs border">{q}</span>
-                    ))}
+
+                {/* Chat History Section */}
+                <div className="pt-4 border-t border-zinc-100">
+                  <h2 className="text-base font-semibold text-zinc-900 mb-4">Recent Conversations</h2>
+                  <div className="bg-white rounded-xl border border-zinc-200 overflow-hidden shadow-sm">
+                     <ChatLogs chatbotId={bot.id} />
                   </div>
                 </div>
               </CardContent>
             </Card>
           </div>
 
-          {/* Right Column: Live Preview */}
-          <div className="flex flex-col gap-4">
-            <h2 className="font-semibold text-lg">Live Preview</h2>
-            <div className="flex justify-center bg-white p-8 rounded-xl border shadow-sm">
-              {/* Render the Chat Component with Real Data */}
-              <ChatInterface 
-                chatbotId={bot.id}
-                initialMessage={bot.welcome_message}
-                suggestions={bot.suggested_questions}
-              />
+          {/* Right Column: Live Preview (Sticky) */}
+          <div className="space-y-4">
+            <h2 className="font-semibold text-lg text-zinc-900 flex items-center gap-2">
+              <span className="w-2 h-2 rounded-full bg-indigo-500" /> Live Preview
+            </h2>
+            <div className="sticky top-8">
+               <div className="flex justify-center bg-white p-6 rounded-2xl border border-zinc-200 shadow-lg shadow-zinc-200/50 relative overflow-hidden">
+                <div className="absolute top-0 inset-x-0 h-1 bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500" />
+                {/* Render the Chat Component with Real Data */}
+                <ChatInterface 
+                  chatbotId={bot.id}
+                  initialMessage={bot.welcome_message}
+                  suggestions={bot.suggested_questions}
+                />
+              </div>
+               <p className="text-xs text-center text-zinc-400 mt-4">
+                This is how your bot looks to visitors.
+              </p>
             </div>
           </div>
 
